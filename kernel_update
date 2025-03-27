@@ -1,0 +1,86 @@
+Kenel update
+
+Step 1: Check Your Current Kernel Version
+
+uname -r
+
+
+---
+
+Step 2: Install Required Dependencies
+
+sudo apt update && sudo apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev bc
+
+
+---
+
+Step 3: Download the Latest Kernel from Kernel.org
+
+Go to https://www.kernel.org and get the latest stable version. Then, download and extract it:
+
+cd /usr/src
+sudo wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.9.tar.xz  # Replace with the latest version
+sudo tar -xvf linux-6.9.tar.xz
+cd linux-6.9
+
+
+---
+
+Step 4: Configure the Kernel
+
+Copy the current kernel config file to the new source directory:
+
+cp -v /boot/config-$(uname -r) .config
+
+Now, update the configuration:
+
+make menuconfig
+
+If prompted, use the default values.
+
+
+
+---
+
+Step 5: Compile the Kernel
+
+make -j$(nproc)
+
+This step can take some time, depending on your system.
+
+
+---
+
+Step 6: Install Kernel Modules
+
+sudo make modules_install
+
+
+---
+
+Step 7: Install the New Kernel
+
+sudo make install
+
+
+---
+
+Step 8: Update GRUB Bootloader
+
+sudo update-grub
+
+
+---
+
+Step 9: Reboot System
+
+sudo reboot
+
+
+---
+
+Step 10: Verify New Kernel
+
+After rebooting, check if the new kernel is active:
+
+uname -r
